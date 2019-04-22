@@ -1,4 +1,4 @@
-package com.github.dmtest.quickpage.api.environment;
+package com.github.dmtest.quickpage.api.entrypoint;
 
 import com.github.dmtest.quickpage.api.driver.DriverManager;
 import com.github.dmtest.quickpage.api.page.PageManager;
