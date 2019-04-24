@@ -16,24 +16,7 @@ import java.util.stream.Collectors;
 
 public class DefaultPageManager implements PageManager {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultPageManager.class);
-    private static volatile DefaultPageManager instance;
-    private Set<Class<? extends Page>> pageClasses;
-
-    private DefaultPageManager() {
-    }
-
-    public static DefaultPageManager getInstance() {
-        DefaultPageManager localInstance = instance;
-        if (localInstance == null) {
-            synchronized (DefaultPageManager.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new DefaultPageManager();
-                }
-            }
-        }
-        return localInstance;
-    }
+    private static ThreadLocal<Set<Class<? extends Page>>> pageClassesContainer = new ThreadLocal<>();
 
     @Override
     public <T extends Page> T getNewPageByName(String name) {
@@ -49,14 +32,15 @@ public class DefaultPageManager implements PageManager {
     }
 
     @SuppressWarnings("unchecked")
-    private synchronized Set<Class<? extends Page>> getPageClasses() {
-        if (Objects.isNull(pageClasses)) {
-            pageClasses = getAllClasses().stream()
+    private Set<Class<? extends Page>> getPageClasses() {
+        if (Objects.isNull(pageClassesContainer.get())) {
+            Set<Class<? extends Page>> pageClasses = getAllClasses().stream()
                     .filter(Page.class::isAssignableFrom)
                     .map(clazz -> (Class<? extends Page>) clazz)
                     .collect(Collectors.toSet());
+            pageClassesContainer.set(pageClasses);
         }
-        return pageClasses;
+        return pageClassesContainer.get();
     }
 
     @SuppressWarnings("UnstableApiUsage")

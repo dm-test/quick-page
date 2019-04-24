@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public class CommonSupport {
     private static final Logger LOG = LoggerFactory.getLogger(CommonSupport.class);
+
     private CommonSupport() {
     }
 
