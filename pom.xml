@@ -11,6 +11,7 @@
     <modules>
         <module>quick-page-api</module>
         <module>quick-page-core</module>
+        <module>example-test</module>
     </modules>
 
     <name>quick-page</name>

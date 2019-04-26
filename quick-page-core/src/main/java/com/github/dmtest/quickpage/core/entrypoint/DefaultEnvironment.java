@@ -10,10 +10,14 @@ public class DefaultEnvironment implements Environment {
     private PageManager pageManager;
     private SearchManager searchManager;
 
-    public DefaultEnvironment(DriverManager driverManager, PageManager pageManager, SearchManager searchManager) {
-        this.driverManager = driverManager;
-        this.pageManager = pageManager;
-        this.searchManager = searchManager;
+//    public DefaultEnvironment(DriverManager driverManager, PageManager pageManager, SearchManager searchManager) {
+//        this.driverManager = driverManager;
+//        this.pageManager = pageManager;
+//        this.searchManager = searchManager;
+//    }
+
+
+    public DefaultEnvironment() {
     }
 
     @Override
