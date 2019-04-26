@@ -1,5 +1,6 @@
 package com.github.dmtest.quickpage.example.pages;
 
+import com.github.dmtest.quickpage.core.entrypoint.DefaultEnvironment;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,9 +14,9 @@ public class ChooseCityPage extends AnyPage {
     private TextInput searchCityInput;
 
     public ChooseCityPage() {
-//        new WebDriverWait(DriverSupport.getDriver(), 20)
-//                .withMessage(() -> "Не смог инициализировать страницу " + ItemPage.class.getSimpleName())
-//                .until(webDriver -> searchCityInput.isDisplayed());
+        new WebDriverWait(DefaultEnvironment.getDriver(), 20)
+                .withMessage(() -> "Не смог инициализировать страницу " + ItemPage.class.getSimpleName())
+                .until(webDriver -> searchCityInput.isDisplayed());
     }
 
     public void chooseCity(String city) {

@@ -12,10 +12,10 @@ import org.testng.annotations.DataProvider;
 )
 public class RunCukesTest extends AbstractTestNGCucumberTests {
 
-//    @DataProvider(parallel = true)
-//    @Override
-//    public Object[][] scenarios() {
-//        return super.scenarios();
-//    }
+    @DataProvider(parallel = true)
+    @Override
+    public Object[][] scenarios() {
+        return super.scenarios();
+    }
 
 }

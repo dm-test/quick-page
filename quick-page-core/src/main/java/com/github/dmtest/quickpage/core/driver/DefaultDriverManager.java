@@ -24,7 +24,7 @@ public class DefaultDriverManager implements DriverManager {
 
     @Override
     public void quitDriver() {
-        if (!Objects.isNull(getDriver())) {
+        if (!Objects.isNull(driverContainer.get()) || !hasQuit(driverContainer.get())) {
             getDriver().quit();
         }
     }
