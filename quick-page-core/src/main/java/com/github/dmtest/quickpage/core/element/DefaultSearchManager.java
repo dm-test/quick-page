@@ -1,20 +1,26 @@
 package com.github.dmtest.quickpage.core.element;
 
+import com.github.dmtest.quickpage.api.driver.DriverManager;
 import com.github.dmtest.quickpage.api.element.SearchManager;
 import com.github.dmtest.quickpage.core.common.CommonSupport;
+import com.github.dmtest.quickpage.core.entrypoint.DefaultEnvironment;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.openqa.selenium.WebElement;
+import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
+import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
 
 import java.lang.reflect.Field;
-import java.util.AbstractMap;
 import java.util.List;
 
 public class DefaultSearchManager implements SearchManager {
     private static final String PATH_SEPARATOR = "->";
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends WebElement> T searchElement(Object context, String path) {
-        return null;
+        Field elementField = getFieldByPath(context, path);
+        HtmlElementDecorator decorator = new HtmlElementDecorator(new HtmlElementLocatorFactory(getDriverManager().getDriver()));
+        return (T) decorator.decorate(DefaultSearchManager.class.getClassLoader(), elementField);
     }
 
     @Override
@@ -50,6 +56,10 @@ public class DefaultSearchManager implements SearchManager {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
                         String.format("The class '%s' does not have '@Name' with value '%s'", clazz.getSimpleName(), name)));
+    }
+
+    protected DriverManager getDriverManager() {
+        return DefaultEnvironment.getEnvironment().getDriverManager();
     }
 
 }
