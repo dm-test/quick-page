@@ -14,7 +14,7 @@ public class ChooseCityPage extends AnyPage {
     private TextInput searchCityInput;
 
     public ChooseCityPage() {
-        new WebDriverWait(DefaultEnvironment.getDriver(), 20)
+        new WebDriverWait(DefaultEnvironment.getDriverS(), 20)
                 .withMessage(() -> "Не смог инициализировать страницу " + ItemPage.class.getSimpleName())
                 .until(webDriver -> searchCityInput.isDisplayed());
     }

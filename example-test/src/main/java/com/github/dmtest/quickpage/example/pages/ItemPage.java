@@ -17,14 +17,14 @@ public class ItemPage extends AnyPage {
     private Button buyInOneClickButton;
 
     public ItemPage() {
-        new WebDriverWait(DefaultEnvironment.getDriver(), 20)
+        new WebDriverWait(DefaultEnvironment.getDriverS(), 20)
                 .withMessage(() -> "Не смог инициализировать страницу " + ItemPage.class.getSimpleName())
                 .until(webDriver -> buyButton.isDisplayed());
     }
 
     public void buyItem() {
         buyButton.click();
-        new WebDriverWait(DefaultEnvironment.getDriver(), 10)
+        new WebDriverWait(DefaultEnvironment.getDriverS(), 10)
                 .until(ExpectedConditions.attributeToBe(buyButton, "data-original-title", "Перейти в корзину"));
     }
 

@@ -14,7 +14,7 @@ public class MainPage extends AnyPage {
     private TextBlock bestOffersTextBlock;
 
     public MainPage() {
-        new WebDriverWait(DefaultEnvironment.getDriver(), 20)
+        new WebDriverWait(DefaultEnvironment.getDriverS(), 20)
                 .withMessage(() -> "Не смог инициализировать страницу " + MainPage.class.getSimpleName())
                 .until(webDriver -> bestOffersTextBlock.isDisplayed());
     }

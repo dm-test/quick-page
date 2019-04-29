@@ -43,7 +43,7 @@ public class DefaultEnvironment implements Environment {
      * Короткий способ получения объекта драйвера
      * @return
      */
-    public static WebDriver getDriver() {
+    public static WebDriver getDriverS() {
         return getEnvironment().getDriverManager().getDriver();
     }
 
@@ -60,5 +60,25 @@ public class DefaultEnvironment implements Environment {
     @Override
     public SearchManager getSearchManager() {
         return searchManager;
+    }
+
+    @Override
+    public Object setDriverManager(DriverManager driverManager) {
+        return null;
+    }
+
+    @Override
+    public Object setPageManager(PageManager pageManager) {
+        return null;
+    }
+
+    @Override
+    public Object setSearchManager(SearchManager searchManager) {
+        return null;
+    }
+
+    @Override
+    public Object setDefaults() {
+        return null;
     }
 }
