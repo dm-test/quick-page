@@ -1,25 +1,25 @@
 package com.github.dmtest.quickpage.example.stepdefs;
 
 import com.github.dmtest.quickpage.api.entrypoint.Environment;
-import com.github.dmtest.quickpage.core.entrypoint.TestDefaultEnvironment;
+import com.github.dmtest.quickpage.core.entrypoint.DefaultEnvironment;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 
 public class Hooks {
-    private Environment testDefaultEnvironment;
+    private Environment environment;
 
-    public Hooks(TestDefaultEnvironment testDefaultEnvironment) {
-        this.testDefaultEnvironment = testDefaultEnvironment;
+    public Hooks(DefaultEnvironment environment) {
+        this.environment = environment;
     }
 
     @Before(order = 1000)
     public void setEnvironment() {
-        testDefaultEnvironment.setDefaults();
+        environment.setDefaults();
     }
 
     @After
     public void quitDriver() {
-        testDefaultEnvironment.getDriverManager().quitDriver();
+        environment.getDriverManager().quitDriver();
     }
 
 }

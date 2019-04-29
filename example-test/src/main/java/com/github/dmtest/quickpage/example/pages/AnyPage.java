@@ -1,6 +1,7 @@
 package com.github.dmtest.quickpage.example.pages;
 
-import com.github.dmtest.quickpage.core.entrypoint.DefaultEnvironment;
+import com.github.dmtest.quickpage.api.driver.DriverManager;
+import com.github.dmtest.quickpage.api.element.SearchManager;
 import com.github.dmtest.quickpage.core.page.AbstractPage;
 import com.github.dmtest.quickpage.example.elements.HeaderSearch;
 import com.github.dmtest.quickpage.example.elements.HeaderTop;
@@ -17,8 +18,8 @@ public abstract class AnyPage extends AbstractPage {
     @FindBy(xpath = "//nav[@id='header-search']")
     private HeaderSearch headerSearch;
 
-    AnyPage() {
-        super(DefaultEnvironment.getEnvironment());
+    AnyPage(DriverManager driverManager, SearchManager searchManager) {
+        super(driverManager, searchManager);
     }
 
     public HeaderSearch getHeaderSearch() {

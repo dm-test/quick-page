@@ -9,22 +9,21 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.util.Objects;
 
 public class DefaultDriverManager implements DriverManager {
-    private static ThreadLocal<WebDriver> driverContainer = new ThreadLocal<>();
+    private WebDriver driver;
 
     @Override
     public WebDriver getDriver() {
-        if (Objects.isNull(driverContainer.get()) || hasQuit(driverContainer.get())) {
+        if (Objects.isNull(driver) || hasQuit(driver)) {
             WebDriverManager.chromedriver().setup();
-            WebDriver driver = new ChromeDriver();
+            driver = new ChromeDriver();
             driver.manage().window().maximize();
-            driverContainer.set(driver);
         }
-        return driverContainer.get();
+        return driver;
     }
 
     @Override
     public void quitDriver() {
-        if (!Objects.isNull(driverContainer.get()) || !hasQuit(driverContainer.get())) {
+        if (!Objects.isNull(driver) || !hasQuit(driver)) {
             getDriver().quit();
         }
     }

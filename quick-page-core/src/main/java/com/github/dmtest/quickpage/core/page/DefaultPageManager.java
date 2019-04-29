@@ -1,5 +1,7 @@
 package com.github.dmtest.quickpage.core.page;
 
+import com.github.dmtest.quickpage.api.driver.DriverManager;
+import com.github.dmtest.quickpage.api.element.SearchManager;
 import com.github.dmtest.quickpage.api.page.Page;
 import com.github.dmtest.quickpage.api.page.PageManager;
 import com.github.dmtest.quickpage.core.common.CommonSupport;
@@ -9,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOError;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -16,12 +19,26 @@ import java.util.stream.Collectors;
 
 public class DefaultPageManager implements PageManager {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultPageManager.class);
-    private static ThreadLocal<Set<Class<? extends Page>>> pageClassesContainer = new ThreadLocal<>();
+    private Set<Class<? extends Page>> pageClasses;
+    private DriverManager driverManager;
+    private SearchManager searchManager;
+
+    public DefaultPageManager(DriverManager driverManager, SearchManager searchManager) {
+        this.driverManager = driverManager;
+        this.searchManager = searchManager;
+    }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends Page> T getNewPageByName(String name) {
         Class<? extends Page> clazz = getPageClassByName(name);
-        return CommonSupport.getInstance(clazz);
+        try {
+            Constructor constructor = clazz.getConstructor(DriverManager.class, SearchManager.class);
+            constructor.setAccessible(true);
+            return (T) constructor.newInstance(driverManager, searchManager);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException(e.getCause());
+        }
     }
 
     private Class<? extends Page> getPageClassByName(String name) {
@@ -33,14 +50,13 @@ public class DefaultPageManager implements PageManager {
 
     @SuppressWarnings("unchecked")
     private Set<Class<? extends Page>> getPageClasses() {
-        if (Objects.isNull(pageClassesContainer.get())) {
-            Set<Class<? extends Page>> pageClasses = getAllClasses().stream()
+        if (Objects.isNull(pageClasses)) {
+            pageClasses = getAllClasses().stream()
                     .filter(Page.class::isAssignableFrom)
                     .map(clazz -> (Class<? extends Page>) clazz)
                     .collect(Collectors.toSet());
-            pageClassesContainer.set(pageClasses);
         }
-        return pageClassesContainer.get();
+        return pageClasses;
     }
 
     @SuppressWarnings("UnstableApiUsage")
@@ -48,7 +64,7 @@ public class DefaultPageManager implements PageManager {
         Set<Class<?>> allClasses = new HashSet<>();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         try {
-            for (ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClassesRecursive("com.github.dmtest.pages")) {
+            for (ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClassesRecursive("com.github.dmtest.quickpage.example.pages")) {
                 allClasses.add(info.load());
             }
         } catch (IOException e) {

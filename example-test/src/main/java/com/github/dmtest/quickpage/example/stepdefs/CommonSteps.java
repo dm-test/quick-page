@@ -1,19 +1,18 @@
 package com.github.dmtest.quickpage.example.stepdefs;
 
-import com.github.dmtest.quickpage.api.entrypoint.Environment;
-import com.github.dmtest.quickpage.core.entrypoint.TestDefaultEnvironment;
+import com.github.dmtest.quickpage.core.entrypoint.DefaultEnvironment;
 import cucumber.api.java.ru.Когда;
 
 public class CommonSteps {
-    private Environment testDefaultEnvironment;
+    private DefaultEnvironment environment;
 
     @Когда("^Открывает URL \"([^\"]*)\"$")
     public void openUrl(String url) {
-        testDefaultEnvironment.getDriver().get(url);
-        System.out.println(testDefaultEnvironment.toString());
+        environment.getDriver().get(url);
+        System.out.println(environment.toString());
     }
 
-    public CommonSteps(TestDefaultEnvironment testDefaultEnvironment) {
-        this.testDefaultEnvironment = testDefaultEnvironment;
+    public CommonSteps(DefaultEnvironment environment) {
+        this.environment = environment;
     }
 }

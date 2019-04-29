@@ -7,44 +7,39 @@ import com.github.dmtest.quickpage.api.page.PageManager;
 import com.github.dmtest.quickpage.core.driver.DefaultDriverManager;
 import com.github.dmtest.quickpage.core.element.DefaultSearchManager;
 import com.github.dmtest.quickpage.core.page.DefaultPageManager;
-import org.openqa.selenium.WebDriver;
 
-import java.util.Optional;
-
-public class DefaultEnvironment implements Environment {
-    private static ThreadLocal<Environment> environmentContainer = new ThreadLocal<>();
+public class DefaultEnvironment implements Environment<DefaultEnvironment> {
     private DriverManager driverManager;
     private PageManager pageManager;
     private SearchManager searchManager;
 
-    private DefaultEnvironment(DriverManager driverManager, PageManager pageManager, SearchManager searchManager) {
+    @Override
+    public DefaultEnvironment setDriverManager(DriverManager driverManager) {
         this.driverManager = driverManager;
+        return this;
+    }
+
+    @Override
+    public DefaultEnvironment setPageManager(PageManager pageManager) {
         this.pageManager = pageManager;
+        return this;
+    }
+
+    @Override
+    public DefaultEnvironment setSearchManager(SearchManager searchManager) {
         this.searchManager = searchManager;
+        return this;
     }
 
-    public static Environment getEnvironment() {
-        Optional<Environment> environment = Optional.ofNullable(environmentContainer.get());
-        return environment.orElseThrow(() -> new IllegalStateException("Set environment before use!"));
-    }
-
-    public static void setEnvironment() {
-        Environment environment = new DefaultEnvironment(
-                new DefaultDriverManager(), new DefaultPageManager(), new DefaultSearchManager());
-        environmentContainer.set(environment);
-    }
-
-    public static void setEnvironment(DriverManager driverManager, PageManager pageManager, SearchManager searchManager) {
-        Environment environment = new DefaultEnvironment(driverManager, pageManager, searchManager);
-        environmentContainer.set(environment);
-    }
-
-    /**
-     * Короткий способ получения объекта драйвера
-     * @return
-     */
-    public static WebDriver getDriverS() {
-        return getEnvironment().getDriverManager().getDriver();
+    @Override
+    public DefaultEnvironment setDefaults() {
+        DriverManager driverManagerLocal = new DefaultDriverManager();
+        SearchManager searchManagerLocal = new DefaultSearchManager(driverManagerLocal);
+        PageManager pageManagerLocal = new DefaultPageManager(driverManagerLocal, searchManagerLocal);
+        setDriverManager(driverManagerLocal);
+        setSearchManager(searchManagerLocal);
+        setPageManager(pageManagerLocal);
+        return this;
     }
 
     @Override
@@ -62,23 +57,4 @@ public class DefaultEnvironment implements Environment {
         return searchManager;
     }
 
-    @Override
-    public Object setDriverManager(DriverManager driverManager) {
-        return null;
-    }
-
-    @Override
-    public Object setPageManager(PageManager pageManager) {
-        return null;
-    }
-
-    @Override
-    public Object setSearchManager(SearchManager searchManager) {
-        return null;
-    }
-
-    @Override
-    public Object setDefaults() {
-        return null;
-    }
 }

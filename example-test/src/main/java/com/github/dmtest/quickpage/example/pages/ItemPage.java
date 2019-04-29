@@ -1,6 +1,7 @@
 package com.github.dmtest.quickpage.example.pages;
 
-import com.github.dmtest.quickpage.core.entrypoint.DefaultEnvironment;
+import com.github.dmtest.quickpage.api.driver.DriverManager;
+import com.github.dmtest.quickpage.api.element.SearchManager;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,15 +17,16 @@ public class ItemPage extends AnyPage {
     @FindBy(xpath = "//a[starts-with(@class,'btn btn-one-click')]")
     private Button buyInOneClickButton;
 
-    public ItemPage() {
-        new WebDriverWait(DefaultEnvironment.getDriverS(), 20)
+    public ItemPage(DriverManager driverManager, SearchManager searchManager) {
+        super(driverManager, searchManager);
+        new WebDriverWait(driverManager.getDriver(), 20)
                 .withMessage(() -> "Не смог инициализировать страницу " + ItemPage.class.getSimpleName())
                 .until(webDriver -> buyButton.isDisplayed());
     }
 
     public void buyItem() {
         buyButton.click();
-        new WebDriverWait(DefaultEnvironment.getDriverS(), 10)
+        new WebDriverWait(getDriverManager().getDriver(), 10)
                 .until(ExpectedConditions.attributeToBe(buyButton, "data-original-title", "Перейти в корзину"));
     }
 
