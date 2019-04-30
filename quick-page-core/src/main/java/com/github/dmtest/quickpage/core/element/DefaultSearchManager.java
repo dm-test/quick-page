@@ -22,24 +22,19 @@ public class DefaultSearchManager implements SearchManager {
     @Override
     @SuppressWarnings("unchecked")
     public <T extends WebElement> T searchElement(Object context, String path) {
+        return (T) getObjectByPath(context, path);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <E extends WebElement> List<E> searchElementList(Object context, String path) {
+        return (List<E>) getObjectByPath(context, path);
+    }
+
+    private Object getObjectByPath(Object context, String path) {
         Field elementField = getFieldByPath(context, path);
         HtmlElementDecorator decorator = new HtmlElementDecorator(new HtmlElementLocatorFactory(driverManager.getDriver()));
-        return (T) decorator.decorate(DefaultSearchManager.class.getClassLoader(), elementField);
-    }
-
-    @Override
-    public <T extends WebElement> T searchElement(String path) {
-        return null;
-    }
-
-    @Override
-    public <E extends WebElement> List<E> searchElementList(Object context, String path) {
-        return null;
-    }
-
-    @Override
-    public <E extends WebElement> List<E> searchElementList(String path) {
-        return null;
+        return decorator.decorate(DefaultSearchManager.class.getClassLoader(), elementField);
     }
 
     private Field getFieldByPath(Object context, String path) {
@@ -59,7 +54,7 @@ public class DefaultSearchManager implements SearchManager {
                 .filter(field -> CommonSupport.getAnnotationNameValue(field).equals(name))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
-                        String.format("The class '%s' does not have '@Name' with value '%s'", clazz.getSimpleName(), name)));
+                        String.format("The class '%s' does not have field with '@Name' is '%s'", clazz.getSimpleName(), name)));
     }
 
 }

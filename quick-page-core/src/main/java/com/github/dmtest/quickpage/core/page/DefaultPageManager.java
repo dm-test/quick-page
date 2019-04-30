@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class DefaultPageManager implements PageManager {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultPageManager.class);
     private Set<Class<? extends Page>> pageClasses;
+    private Page currentPage;
     private DriverManager driverManager;
     private SearchManager searchManager;
 
@@ -30,12 +31,18 @@ public class DefaultPageManager implements PageManager {
 
     @Override
     @SuppressWarnings("unchecked")
+    public <T extends Page> T getCurrentPage() {
+        return (T) currentPage;
+    }
+
+    @Override
     public <T extends Page> T getNewPageByName(String name) {
         Class<? extends Page> clazz = getPageClassByName(name);
         try {
             Constructor constructor = clazz.getConstructor(DriverManager.class, SearchManager.class);
             constructor.setAccessible(true);
-            return (T) constructor.newInstance(driverManager, searchManager);
+            currentPage = (Page) constructor.newInstance(driverManager, searchManager);
+            return getCurrentPage();
         } catch (ReflectiveOperationException e) {
             throw new IllegalStateException(e.getCause());
         }

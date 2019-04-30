@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class DefaultDriverManager implements DriverManager {
@@ -23,12 +24,12 @@ public class DefaultDriverManager implements DriverManager {
 
     @Override
     public void quitDriver() {
-        if (!Objects.isNull(driver) || !hasQuit(driver)) {
+        if (!Objects.isNull(driver) && !hasQuit(driver)) {
             getDriver().quit();
         }
     }
 
-    private static boolean hasQuit(WebDriver driver) {
+    private boolean hasQuit(@Nonnull WebDriver driver) {
         return Objects.isNull(((RemoteWebDriver) driver).getSessionId());
     }
 }
