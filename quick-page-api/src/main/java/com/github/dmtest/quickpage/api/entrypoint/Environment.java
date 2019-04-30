@@ -5,21 +5,15 @@ import com.github.dmtest.quickpage.api.element.SearchManager;
 import com.github.dmtest.quickpage.api.page.PageManager;
 import org.openqa.selenium.WebDriver;
 
-public interface Environment<T> {
+public interface Environment {
 
     DriverManager getDriverManager();
 
-    PageManager getPageManager();
-
     SearchManager getSearchManager();
 
-    T setDriverManager(DriverManager driverManager);
+    PageManager getPageManager();
 
-    T setPageManager(PageManager pageManager);
-
-    T setSearchManager(SearchManager searchManager);
-
-    T setDefaults();
+    Environment setEnvironment(DriverManager driverManager, SearchManager searchManager, PageManager pageManager);
 
     default WebDriver getDriver() {
         return getDriverManager().getDriver();

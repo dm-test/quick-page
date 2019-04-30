@@ -23,10 +23,12 @@ public class DefaultPageManager implements PageManager {
     private Page currentPage;
     private DriverManager driverManager;
     private SearchManager searchManager;
+    private String pagePackage;
 
-    public DefaultPageManager(DriverManager driverManager, SearchManager searchManager) {
+    public DefaultPageManager(DriverManager driverManager, SearchManager searchManager, String pagePackage) {
         this.driverManager = driverManager;
         this.searchManager = searchManager;
+        this.pagePackage = pagePackage;
     }
 
     @Override
@@ -71,7 +73,7 @@ public class DefaultPageManager implements PageManager {
         Set<Class<?>> allClasses = new HashSet<>();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         try {
-            for (ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClassesRecursive("com.github.dmtest.quickpage.example.pages")) {
+            for (ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClassesRecursive(pagePackage)) {
                 allClasses.add(info.load());
             }
         } catch (IOException e) {
