@@ -4,6 +4,7 @@ import com.github.dmtest.quickpage.api.driver.DriverManager;
 import com.github.dmtest.quickpage.api.element.SearchManager;
 import com.github.dmtest.quickpage.api.page.Page;
 import com.github.dmtest.quickpage.api.page.PageManager;
+import com.github.dmtest.quickpage.api.property.PropertyManager;
 import com.github.dmtest.quickpage.core.common.CommonSupport;
 import com.google.common.reflect.ClassPath;
 import org.slf4j.Logger;
@@ -23,12 +24,12 @@ public class DefaultPageManager implements PageManager {
     private Page currentPage;
     private DriverManager driverManager;
     private SearchManager searchManager;
-    private String pagePackage;
+    private PropertyManager propertyManager;
 
-    public DefaultPageManager(DriverManager driverManager, SearchManager searchManager, String pagePackage) {
+    public DefaultPageManager(DriverManager driverManager, SearchManager searchManager, PropertyManager propertyManager) {
         this.driverManager = driverManager;
         this.searchManager = searchManager;
-        this.pagePackage = pagePackage;
+        this.propertyManager = propertyManager;
     }
 
     @Override
@@ -54,7 +55,7 @@ public class DefaultPageManager implements PageManager {
         return getPageClasses().stream()
                 .filter(clazz -> CommonSupport.getAnnotationNameValue(clazz).equals(name))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(String.format("No classes with '@Name value()' is '%s'", name)));
+                .orElseThrow(() -> new IllegalArgumentException(String.format("No classes with '@Name' is '%s'", name)));
     }
 
     @SuppressWarnings("unchecked")
@@ -73,7 +74,7 @@ public class DefaultPageManager implements PageManager {
         Set<Class<?>> allClasses = new HashSet<>();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         try {
-            for (ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClassesRecursive(pagePackage)) {
+            for (ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClassesRecursive(propertyManager.getConfig().pagePackage())) {
                 allClasses.add(info.load());
             }
         } catch (IOException e) {

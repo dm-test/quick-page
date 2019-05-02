@@ -8,7 +8,7 @@ import org.testng.annotations.DataProvider;
         features = "src/test/resources/features",
         glue = "com.github.dmtest.quickpage.example.stepdefs",
         plugin = "pretty",
-        tags = "@all"
+        tags = "@1"
 )
 public class RunCukesTest extends AbstractTestNGCucumberTests {
 

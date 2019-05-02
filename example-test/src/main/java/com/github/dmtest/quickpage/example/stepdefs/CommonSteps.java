@@ -9,7 +9,11 @@ public class CommonSteps {
     @Когда("^Открывает URL \"([^\"]*)\"$")
     public void openUrl(String url) {
         environment.getDriver().get(url);
-        System.out.println(environment.toString());
+    }
+
+    @Когда("^Пользователь находится на странице \"([^\"]*)\"$")
+    public void getNewPage(String pageName) {
+        environment.getPageManager().getNewPageByName(pageName);
     }
 
     public CommonSteps(DefaultEnvironment environment) {
