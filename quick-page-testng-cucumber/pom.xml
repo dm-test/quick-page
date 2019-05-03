@@ -4,16 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.github.dmtest</groupId>
-        <artifactId>quick-page</artifactId>
-        <version>1.0</version>
-    </parent>
-
-    <artifactId>example-test</artifactId>
+    <groupId>com.github.dmtest</groupId>
+    <artifactId>quick-page-testng-cucumber</artifactId>
     <version>1.0</version>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <quick-page.version>1.0</quick-page.version>
         <cucumber.version>4.2.0</cucumber.version>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
         <aspectj.version>1.8.10</aspectj.version>
@@ -25,22 +24,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ru.yandex.qatools.htmlelements</groupId>
-            <artifactId>htmlelements-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.dmtest</groupId>
-            <artifactId>quick-page-api</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.dmtest</groupId>
             <artifactId>quick-page-core</artifactId>
-            <version>${parent.version}</version>
+            <version>${quick-page.version}</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>

@@ -13,6 +13,8 @@ import com.github.dmtest.quickpage.api.property.DefaultConfig;
 import com.github.dmtest.quickpage.core.property.DefaultPropertyManager;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 public class Hooks {
     private Environment environment;
@@ -28,6 +30,7 @@ public class Hooks {
         SearchManager searchManager = new DefaultSearchManager(driverManager);
         PageManager pageManager = new DefaultPageManager(driverManager, searchManager, propertyManager);
         environment.setEnvironment(driverManager, searchManager, pageManager, propertyManager);
+
     }
 
     @After

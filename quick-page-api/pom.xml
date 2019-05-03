@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>quick-page-api</artifactId>
-    <version>1.0</version>
+    <version>${parent.version}</version>
 
     <dependencies>
         <dependency>
@@ -25,7 +25,6 @@
         <dependency>
             <groupId>org.aeonbits.owner</groupId>
             <artifactId>owner</artifactId>
-            <version>1.0.10</version>
         </dependency>
     </dependencies>
 

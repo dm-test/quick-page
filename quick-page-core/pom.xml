@@ -11,9 +11,14 @@
     </parent>
 
     <artifactId>quick-page-core</artifactId>
-    <version>1.0</version>
+    <version>${parent.version}</version>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.dmtest</groupId>
+            <artifactId>quick-page-api</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
@@ -27,14 +32,8 @@
             <artifactId>htmlelements-java</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.dmtest</groupId>
-            <artifactId>quick-page-api</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.aeonbits.owner</groupId>
             <artifactId>owner</artifactId>
-            <version>1.0.10</version>
         </dependency>
     </dependencies>
 
