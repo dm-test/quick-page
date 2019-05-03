@@ -1,7 +1,6 @@
 package com.github.dmtest.quickpage.example.pages;
 
-import com.github.dmtest.quickpage.api.driver.DriverManager;
-import com.github.dmtest.quickpage.api.element.SearchManager;
+import com.github.dmtest.quickpage.api.entrypoint.Environment;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.htmlelements.annotations.Name;
@@ -14,9 +13,9 @@ public class MainPage extends AnyPage {
     @FindBy(xpath = "//h2[text()='Лучшие предложения']")
     private TextBlock bestOffersTextBlock;
 
-    public MainPage(DriverManager driverManager, SearchManager searchManager) {
-        super(driverManager, searchManager);
-        new WebDriverWait(driverManager.getDriver(), 20)
+    public MainPage(Environment environment) {
+        super(environment);
+        new WebDriverWait(getEnvironment().getDriver(), 20)
                 .withMessage(() -> "Не смог инициализировать страницу " + MainPage.class.getSimpleName())
                 .until(webDriver -> bestOffersTextBlock.isDisplayed());
     }

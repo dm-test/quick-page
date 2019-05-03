@@ -17,9 +17,17 @@ public interface Environment {
 
     <T extends DefaultConfig> PropertyManager<T> getPropertyManager();
 
-    Environment setEnvironment(DriverManager driverManager, SearchManager searchManager, PageManager pageManager, PropertyManager propertyManager);
+    Environment setEnvironment(PropertyManager propertyManager, DriverManager driverManager, SearchManager searchManager, PageManager pageManager);
 
+    void setEnvironmentDefaults();
+
+    // Shortcuts
     default WebDriver getDriver() {
         return getDriverManager().getDriver();
+    }
+
+    default <T extends DefaultConfig> T getConfig() {
+        PropertyManager<T> propertyManager = getPropertyManager();
+        return propertyManager.getConfig();
     }
 }

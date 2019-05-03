@@ -1,7 +1,7 @@
 package com.github.dmtest.quickpage.core.element;
 
-import com.github.dmtest.quickpage.api.driver.DriverManager;
 import com.github.dmtest.quickpage.api.element.SearchManager;
+import com.github.dmtest.quickpage.api.entrypoint.Environment;
 import com.github.dmtest.quickpage.core.common.CommonSupport;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.openqa.selenium.WebElement;
@@ -13,10 +13,10 @@ import java.util.List;
 
 public class DefaultSearchManager implements SearchManager {
     private static final String PATH_SEPARATOR = "->";
-    private DriverManager driverManager;
+    private Environment environment;
 
-    public DefaultSearchManager(DriverManager driverManager) {
-        this.driverManager = driverManager;
+    public DefaultSearchManager(Environment environment) {
+        this.environment = environment;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class DefaultSearchManager implements SearchManager {
 
     private Object getObjectByPath(Object context, String path) {
         Field elementField = getFieldByPath(context, path);
-        HtmlElementDecorator decorator = new HtmlElementDecorator(new HtmlElementLocatorFactory(driverManager.getDriver()));
+        HtmlElementDecorator decorator = new HtmlElementDecorator(new HtmlElementLocatorFactory(environment.getDriver()));
         return decorator.decorate(DefaultSearchManager.class.getClassLoader(), elementField);
     }
 

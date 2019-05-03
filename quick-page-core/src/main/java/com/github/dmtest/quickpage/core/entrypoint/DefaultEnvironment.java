@@ -6,6 +6,10 @@ import com.github.dmtest.quickpage.api.entrypoint.Environment;
 import com.github.dmtest.quickpage.api.page.PageManager;
 import com.github.dmtest.quickpage.api.property.DefaultConfig;
 import com.github.dmtest.quickpage.api.property.PropertyManager;
+import com.github.dmtest.quickpage.core.driver.DefaultDriverManager;
+import com.github.dmtest.quickpage.core.element.DefaultSearchManager;
+import com.github.dmtest.quickpage.core.page.DefaultPageManager;
+import com.github.dmtest.quickpage.core.property.DefaultPropertyManager;
 
 public class DefaultEnvironment implements Environment {
     private DriverManager driverManager;
@@ -13,12 +17,22 @@ public class DefaultEnvironment implements Environment {
     private SearchManager searchManager;
     private PropertyManager propertyManager;
 
-    public Environment setEnvironment(DriverManager driverManager, SearchManager searchManager, PageManager pageManager, PropertyManager propertyManager) {
+    @Override
+    public Environment setEnvironment(PropertyManager propertyManager, DriverManager driverManager, SearchManager searchManager, PageManager pageManager) {
+        this.propertyManager = propertyManager;
         this.driverManager = driverManager;
         this.searchManager = searchManager;
         this.pageManager = pageManager;
-        this.propertyManager = propertyManager;
         return this;
+    }
+
+    @Override
+    public void setEnvironmentDefaults() {
+        PropertyManager<DefaultConfig> propertyManagerLocal = new DefaultPropertyManager<>(DefaultConfig.class);
+        DriverManager driverManagerLocal = new DefaultDriverManager();
+        SearchManager searchManagerLocal = new DefaultSearchManager(this);
+        PageManager pageManagerLocal = new DefaultPageManager(this);
+        setEnvironment(propertyManagerLocal, driverManagerLocal, searchManagerLocal, pageManagerLocal);
     }
 
     @Override
@@ -36,8 +50,8 @@ public class DefaultEnvironment implements Environment {
         return searchManager;
     }
 
-    @Override
     @SuppressWarnings("unchecked")
+    @Override
     public <T extends DefaultConfig> PropertyManager<T> getPropertyManager() {
         return (PropertyManager<T>) propertyManager;
     }

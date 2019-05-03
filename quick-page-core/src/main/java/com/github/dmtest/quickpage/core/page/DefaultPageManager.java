@@ -1,14 +1,10 @@
 package com.github.dmtest.quickpage.core.page;
 
-import com.github.dmtest.quickpage.api.driver.DriverManager;
-import com.github.dmtest.quickpage.api.element.SearchManager;
+import com.github.dmtest.quickpage.api.entrypoint.Environment;
 import com.github.dmtest.quickpage.api.page.Page;
 import com.github.dmtest.quickpage.api.page.PageManager;
-import com.github.dmtest.quickpage.api.property.PropertyManager;
 import com.github.dmtest.quickpage.core.common.CommonSupport;
 import com.google.common.reflect.ClassPath;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOError;
 import java.io.IOException;
@@ -19,17 +15,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DefaultPageManager implements PageManager {
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultPageManager.class);
+    private Environment environment;
     private Set<Class<? extends Page>> pageClasses;
     private Page currentPage;
-    private DriverManager driverManager;
-    private SearchManager searchManager;
-    private PropertyManager propertyManager;
 
-    public DefaultPageManager(DriverManager driverManager, SearchManager searchManager, PropertyManager propertyManager) {
-        this.driverManager = driverManager;
-        this.searchManager = searchManager;
-        this.propertyManager = propertyManager;
+    public DefaultPageManager(Environment environment) {
+        this.environment = environment;
     }
 
     @Override
@@ -42,9 +33,9 @@ public class DefaultPageManager implements PageManager {
     public <T extends Page> T getNewPageByName(String name) {
         Class<? extends Page> clazz = getPageClassByName(name);
         try {
-            Constructor constructor = clazz.getConstructor(DriverManager.class, SearchManager.class);
+            Constructor constructor = clazz.getConstructor(Environment.class);
             constructor.setAccessible(true);
-            currentPage = (Page) constructor.newInstance(driverManager, searchManager);
+            currentPage = (Page) constructor.newInstance(environment);
             return getCurrentPage();
         } catch (ReflectiveOperationException e) {
             throw new IllegalStateException(e.getCause());
@@ -74,11 +65,10 @@ public class DefaultPageManager implements PageManager {
         Set<Class<?>> allClasses = new HashSet<>();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         try {
-            for (ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClassesRecursive(propertyManager.getConfig().pagePackage())) {
+            for (ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClassesRecursive(environment.getConfig().pagePackage())) {
                 allClasses.add(info.load());
             }
         } catch (IOException e) {
-            LOG.error("Failed to read class path resources", e);
             throw new IOError(e);
         }
         return allClasses;
