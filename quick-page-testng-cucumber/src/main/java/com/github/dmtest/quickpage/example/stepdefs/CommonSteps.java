@@ -16,6 +16,11 @@ public class CommonSteps {
         environment.getPageManager().getNewPageByName(pageName);
     }
 
+    @Когда("^Пользователь находит элемент \"([^\"]*)\"$")
+    public void searchElementOnCurrentPage(String elementName) {
+        environment.getSearchManager().searchElement(elementName);
+    }
+
     public CommonSteps(DefaultEnvironment environment) {
         this.environment = environment;
     }

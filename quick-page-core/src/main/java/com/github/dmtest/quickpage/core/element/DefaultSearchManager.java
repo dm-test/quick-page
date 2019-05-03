@@ -19,16 +19,28 @@ public class DefaultSearchManager implements SearchManager {
         this.environment = environment;
     }
 
-    @Override
     @SuppressWarnings("unchecked")
+    @Override
     public <T extends WebElement> T searchElement(Object context, String path) {
         return (T) getObjectByPath(context, path);
     }
 
-    @Override
     @SuppressWarnings("unchecked")
-    public <E extends WebElement> List<E> searchElementList(Object context, String path) {
-        return (List<E>) getObjectByPath(context, path);
+    @Override
+    public <T extends WebElement> T searchElement(String path) {
+        return (T) getObjectByPath(environment.getCurrentPage(), path);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends WebElement> List<T> searchElementList(Object context, String path) {
+        return (List<T>) getObjectByPath(context, path);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends WebElement> List<T> searchElementList(String path) {
+        return (List<T>) getObjectByPath(environment.getCurrentPage(), path);
     }
 
     private Object getObjectByPath(Object context, String path) {
