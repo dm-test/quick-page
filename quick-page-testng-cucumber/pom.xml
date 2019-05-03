@@ -16,6 +16,7 @@
         <cucumber.version>4.2.0</cucumber.version>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
         <aspectj.version>1.8.10</aspectj.version>
+        <allure-cucumber4-jvm>2.10.0</allure-cucumber4-jvm>
         <allure-maven.version>2.9</allure-maven.version>
         <allure-generator.version>2.7.0</allure-generator.version>
         <tags>@all</tags>
@@ -43,6 +44,11 @@
             <artifactId>cucumber-picocontainer</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber4-jvm</artifactId>
+            <version>${allure-cucumber4-jvm}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -60,7 +66,7 @@
                     <forkCount>1</forkCount>
                     <argLine>
                         -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
-<!--                        -Dcucumber.options="&#45;&#45;plugin pretty &#45;&#45;plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm &#45;&#45;tags ${tags}"-->
+                        -Dcucumber.options="--plugin pretty --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --tags ${tags}"
                     </argLine>
                 </configuration>
                 <dependencies>
