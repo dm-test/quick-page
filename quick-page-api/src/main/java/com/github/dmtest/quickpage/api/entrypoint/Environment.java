@@ -9,7 +9,7 @@ import com.github.dmtest.quickpage.api.property.PropertyManager;
 import org.openqa.selenium.WebDriver;
 
 /**
- * Интерфей точка входа. Агрегатор для реализаций менеджеров и провайдер доступа к ним
+ * Интерфейс точка входа. Агрегатор для реализаций менеджеров и провайдер доступа к ним
  */
 public interface Environment {
 
