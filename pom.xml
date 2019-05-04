@@ -7,7 +7,7 @@
     <groupId>com.github.dmtest</groupId>
     <artifactId>quick-page</artifactId>
     <packaging>pom</packaging>
-    <version>1.0</version>
+    <version>1.0.0</version>
 
     <modules>
         <module>quick-page-api</module>
@@ -15,7 +15,7 @@
     </modules>
 
     <name>quick-page</name>
-    <url>http://www.example.com</url>
+    <url>https://github.com/dm-test/quick-page</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

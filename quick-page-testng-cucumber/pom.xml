@@ -12,14 +12,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <quick-page.version>1.0</quick-page.version>
+        <quick-page.version>1.0.0</quick-page.version>
         <cucumber.version>4.2.0</cucumber.version>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
         <aspectj.version>1.8.10</aspectj.version>
         <allure-cucumber4-jvm>2.10.0</allure-cucumber4-jvm>
         <allure-maven.version>2.9</allure-maven.version>
         <allure-generator.version>2.7.0</allure-generator.version>
-        <tags>@all</tags>
+<!--        <tags>@all</tags>-->
         <threads.count>4</threads.count>
     </properties>
 

@@ -7,7 +7,6 @@ import org.testng.annotations.DataProvider;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = "com.github.dmtest.quickpage.example.stepdefs",
-        plugin = "pretty",
         tags = "@1"
 )
 public class RunCukesTest extends AbstractTestNGCucumberTests {
