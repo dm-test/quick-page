@@ -3,9 +3,9 @@ package com.github.dmtest.quickpage.core.element;
 import com.github.dmtest.quickpage.api.element.SearchManager;
 import com.github.dmtest.quickpage.api.entrypoint.Environment;
 import com.github.dmtest.quickpage.core.common.CommonSupport;
+import com.github.dmtest.quickpage.core.factory.CustomHtmlElementDecorator;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.openqa.selenium.WebElement;
-import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
 import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
 
 import java.lang.reflect.Field;
@@ -45,7 +45,7 @@ public class DefaultSearchManager implements SearchManager {
 
     private Object getObjectByPath(Object context, String path) {
         Field elementField = getFieldByPath(context, path);
-        HtmlElementDecorator decorator = new HtmlElementDecorator(new HtmlElementLocatorFactory(environment.getDriver()));
+        CustomHtmlElementDecorator decorator = new CustomHtmlElementDecorator(new HtmlElementLocatorFactory(environment.getDriver()));
         return decorator.decorate(DefaultSearchManager.class.getClassLoader(), elementField);
     }
 
