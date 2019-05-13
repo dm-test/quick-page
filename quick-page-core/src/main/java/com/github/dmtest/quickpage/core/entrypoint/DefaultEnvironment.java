@@ -29,7 +29,7 @@ public class DefaultEnvironment implements Environment {
     @Override
     public void setEnvironmentDefaults() {
         PropertyManager<DefaultConfig> propertyManagerLocal = new DefaultPropertyManager<>(DefaultConfig.class);
-        DriverManager driverManagerLocal = new DefaultDriverManager();
+        DriverManager driverManagerLocal = new DefaultDriverManager(this);
         SearchManager searchManagerLocal = new DefaultSearchManager(this);
         PageManager pageManagerLocal = new DefaultPageManager(this);
         setEnvironment(propertyManagerLocal, driverManagerLocal, searchManagerLocal, pageManagerLocal);
