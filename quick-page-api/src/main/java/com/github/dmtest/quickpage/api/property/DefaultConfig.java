@@ -9,6 +9,9 @@ public interface DefaultConfig extends Config {
     @Key("page.package")
     String pagePackage();
 
+    @Key("wait.timeout")
+    int waitTimeout();
+
 //    Remote webdriver support
     @Key("remote.webdriver.url")
     String remoteWebdriverUrl();
@@ -18,7 +21,7 @@ public interface DefaultConfig extends Config {
 
     @Key("remote.webdriver.enable.vnc")
     @DefaultValue("false")
-    String remoteWebDriverEnableVNC();
+    boolean remoteWebDriverEnableVNC();
 
     @Key("remote.webdriver.screen.resolution")
     @DefaultValue("1920x1080x24")
@@ -27,9 +30,5 @@ public interface DefaultConfig extends Config {
     @Key("remote.webdriver.project.name")
     @DefaultValue("MyProject")
     String remoteWebdriverProjectName();
-
-    @Key("remote.webdriver.timezone")
-    @DefaultValue("Europe/Moscow")
-    String remoteWebdriverTimezone();
 
 }

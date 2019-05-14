@@ -32,6 +32,7 @@ public class DefaultDriverManager implements DriverManager {
             } else {
                 startRemoteDriver(remoteWebdriverUrl);
             }
+            driver.manage().window().maximize();
         }
         return driver;
     }
@@ -39,18 +40,10 @@ public class DefaultDriverManager implements DriverManager {
     private void startLocalDriver() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.manage().window().maximize();
     }
 
     private void startRemoteDriver(String remoteWebdriverUrlStr) {
-        DefaultConfig config = environment.getConfig();
-        DesiredCapabilities remoteDriverCapabilities = new DesiredCapabilities();
-        remoteDriverCapabilities.setVersion(config.remoteWebdriverBrowserVersion());
-        remoteDriverCapabilities.setCapability("enableVNC", config.remoteWebDriverEnableVNC());
-        remoteDriverCapabilities.setCapability("screenResolution", config.remoteWebDriverScreenResolution());
-        remoteDriverCapabilities.setCapability("name", config.remoteWebdriverProjectName());
-        remoteDriverCapabilities.setCapability("timeZone", config.remoteWebdriverTimezone());
-        getCapabilities().merge(remoteDriverCapabilities);
+        addRemoteDriverCapabilities();
         try {
             URL remoteWebdriverUrl = new URL(remoteWebdriverUrlStr);
             driver = new RemoteWebDriver(remoteWebdriverUrl, getCapabilities());
@@ -59,14 +52,16 @@ public class DefaultDriverManager implements DriverManager {
         }
     }
 
-    @Override
-    public void quitDriver() {
-        if (!Objects.isNull(driver) && !hasQuit(driver)) {
-            getDriver().quit();
-        }
+    private void addRemoteDriverCapabilities() {
+        DefaultConfig config = environment.getConfig();
+        DesiredCapabilities remoteDriverCapabilities = new DesiredCapabilities();
+        remoteDriverCapabilities.setVersion(config.remoteWebdriverBrowserVersion());
+        remoteDriverCapabilities.setCapability("enableVNC", config.remoteWebDriverEnableVNC());
+        remoteDriverCapabilities.setCapability("screenResolution", config.remoteWebDriverScreenResolution());
+        remoteDriverCapabilities.setCapability("name", config.remoteWebdriverProjectName());
+        getCapabilities().merge(remoteDriverCapabilities);
     }
 
-    @Override
     public DesiredCapabilities getCapabilities() {
         if (Objects.isNull(capabilities)) {
             capabilities = new DesiredCapabilities();
@@ -74,9 +69,16 @@ public class DefaultDriverManager implements DriverManager {
         return capabilities;
     }
 
-    @Override
+
     public void setCapabilities(DesiredCapabilities capabilities) {
         this.capabilities = capabilities;
+    }
+
+    @Override
+    public void quitDriver() {
+        if (!Objects.isNull(driver) && !hasQuit(driver)) {
+            getDriver().quit();
+        }
     }
 
     private boolean hasQuit(@Nonnull WebDriver driver) {
