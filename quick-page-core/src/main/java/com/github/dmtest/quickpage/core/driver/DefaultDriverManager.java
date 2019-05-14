@@ -55,6 +55,7 @@ public class DefaultDriverManager implements DriverManager {
     private void addRemoteDriverCapabilities() {
         DefaultConfig config = environment.getConfig();
         DesiredCapabilities remoteDriverCapabilities = new DesiredCapabilities();
+        remoteDriverCapabilities.setBrowserName(config.browserName());
         remoteDriverCapabilities.setVersion(config.remoteWebdriverBrowserVersion());
         remoteDriverCapabilities.setCapability("enableVNC", config.remoteWebDriverEnableVNC());
         remoteDriverCapabilities.setCapability("screenResolution", config.remoteWebDriverScreenResolution());

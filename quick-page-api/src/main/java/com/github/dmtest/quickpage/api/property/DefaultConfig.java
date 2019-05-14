@@ -12,6 +12,9 @@ public interface DefaultConfig extends Config {
     @Key("wait.timeout")
     int waitTimeout();
 
+    @Key("browser.name")
+    String browserName();
+
 //    Remote webdriver support
     @Key("remote.webdriver.url")
     String remoteWebdriverUrl();
