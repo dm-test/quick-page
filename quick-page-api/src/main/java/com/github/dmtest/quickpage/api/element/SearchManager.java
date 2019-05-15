@@ -8,6 +8,9 @@ import java.util.List;
  * Интерфейс для управления поиском элементов в page-object или другом заданном контексте (например, в других элементах)
  */
 public interface SearchManager {
+
+    <T extends WebElement> T searchElement(Object context, String path, boolean reInit);
+
     /**
      * Метод отдает элемент из заданного контекста по заданному пути поиска
      *
@@ -18,6 +21,8 @@ public interface SearchManager {
      */
     <T extends WebElement> T searchElement(Object context, String path);
 
+    <T extends WebElement> T searchElement(String path, boolean reInit);
+
     /**
      * Метод отдает элемент из текущего контекста по заданному пути поиска
      *
@@ -26,6 +31,8 @@ public interface SearchManager {
      * @return элемент из текущего контекста по заданному пути поиска
      */
     <T extends WebElement> T searchElement(String path);
+
+    <T extends WebElement> List<T> searchElementList(Object context, String path, boolean reInit);
 
     /**
      * Метод отдает {@link List<T>} элементов из заданного контекста по заданному пути поиска
@@ -46,4 +53,5 @@ public interface SearchManager {
      */
     <T extends WebElement> List<T> searchElementList(String path);
 
+    <T extends WebElement> List<T> searchElementList(String path, boolean reInit);
 }
