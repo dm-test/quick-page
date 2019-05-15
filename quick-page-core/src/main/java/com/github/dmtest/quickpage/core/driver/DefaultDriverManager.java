@@ -32,6 +32,7 @@ public class DefaultDriverManager implements DriverManager {
             } else {
                 startRemoteDriver(remoteWebdriverUrl);
             }
+            driver.manage().window().maximize();
         }
         return driver;
     }
@@ -39,17 +40,16 @@ public class DefaultDriverManager implements DriverManager {
     private void startLocalDriver() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.manage().window().maximize();
     }
 
     private void startRemoteDriver(String remoteWebdriverUrlStr) {
         DefaultConfig config = environment.getConfig();
         DesiredCapabilities remoteDriverCapabilities = new DesiredCapabilities();
+        remoteDriverCapabilities.setBrowserName(config.browserName());
         remoteDriverCapabilities.setVersion(config.remoteWebdriverBrowserVersion());
         remoteDriverCapabilities.setCapability("enableVNC", config.remoteWebDriverEnableVNC());
         remoteDriverCapabilities.setCapability("screenResolution", config.remoteWebDriverScreenResolution());
         remoteDriverCapabilities.setCapability("name", config.remoteWebdriverProjectName());
-        remoteDriverCapabilities.setCapability("timeZone", config.remoteWebdriverTimezone());
         getCapabilities().merge(remoteDriverCapabilities);
         try {
             URL remoteWebdriverUrl = new URL(remoteWebdriverUrlStr);
